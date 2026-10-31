@@ -15,7 +15,7 @@ import java.util.Scanner;
  *   Replace the placeholder on the RIGHT of the = with real code.
  *   Run it after every part. It runs from the start - it just says nonsense.
  *
- * @author  (your name here)
+ * @Livingston Konrad
  */
 public class SecretAgent {
 
@@ -50,10 +50,10 @@ public class SecretAgent {
         //                            rest  = "Elizabeth Lee"
         //   Now look for a space INSIDE rest.
 
-        int firstSpace  = 0;     // TODO: where is the first space in fullName?
-        String first    = "";    // TODO: everything before it
-        String rest     = "";    // TODO: everything after it
-        int secondSpace = 0;     // TODO: where is the space inside rest?
+        int firstSpace  = fullName.indexOf(" ");     // TODO: where is the first space in fullName?
+        String first    = fullName.indexOf(0, firstSpace);    // TODO: everything before it
+        String rest     = fullName.indexOf(firstSpace + 1);    // TODO: everything after it
+        int secondSpace = rest.indexOf(" ");     // TODO: where is the space inside rest?
 
         // NOT a TODO - leave these three lines alone.
         // They are declared HERE, before the if, so they still exist after it.
@@ -72,12 +72,17 @@ public class SecretAgent {
             // Two names, e.g. "Maya Adams".  rest is the last name.
             // TODO: last = ...
             // TODO: initials = ...          -> "MA"
+            last = rest;
+            initials = (first.charAt(0) + last.charAt(0));
 
         } else {
             // Three names, e.g. "Regina Elizabeth Lee".
             // TODO: middle = ...            everything in rest before the space
             // TODO: last = ...              everything in rest after the space
             // TODO: initials = ...          -> "REL"
+            String middle = rest.indexOf(0, secondSpace);
+            String last = rest.indexOf(secondSpace + 1);
+            String initials = (first.charAt(0) + middle.charAt(0) + last.charAt(0));
 
         }
 
@@ -91,58 +96,55 @@ public class SecretAgent {
         // If any line in it throws, Java jumps straight to the matching catch.
 
         try {
-            String year  = "";   // TODO: substring
-            String month = "";   // TODO: substring
-            String day   = "";   // TODO: substring
+            String year  = dob.substring(0, 4);   // "2009" (indices 0 to 4)
+            String month = dob.substring(5, 7);   // "09"   (indices 5 to 7)
+            String day   = dob.substring(8, 10);  // "30"   (indices 8 to 10)
             int birthYear = Integer.parseInt(year);
 
-            // TODO: print   Born: 09/30/2009 (month/day/year)
+            // Print Born: 09/30/2009
+            System.out.println("Born: " + month + "/" + day + "/" + year);
 
-            // TODO: print   Age(end 2026): 17 (2026 - birthYear)
+            // Print Age(end 2026): 17
+            System.out.println("Age(end 2026): " + (2026 - birthYear));
 
-            // TODO: build and print the Agent ID:
-            //       first initial + last name, both lowercase, then the last
-            //       TWO characters of year.     "R" + "Lee" + "09" -> rlee09
-            //       Use year.length() to find where the last two start.
-            //       use toLowerCase()
+            // Build and print the Agent ID: first initial + last name (lowercase) + last 2 chars of year
+            String agentId = ("" + first.charAt(0) + last).toLowerCase() + year.substring(year.length() - 2);
+            System.out.println("Agent ID: " + agentId);
 
         } catch (StringIndexOutOfBoundsException e) {
             System.out.println("DATE OF BIRTH:   CORRUPTED - too short for YYYY-MM-DD");
         } catch (NumberFormatException e) {
             System.out.println("DATE OF BIRTH:   CORRUPTED - not a number where one belongs");
         }
-
-
         // ==== PART 3 - THE EMAIL  (Problem 3 from slides) ===================
         // The domain is everything AFTER the @.
 
-        int at        = 0;     // TODO: where is the @ ?
-        String domain = "";    // TODO: everything after it   (think about the + 1)
+        int at        = email.indexOf("@");
+        String domain = email.substring(at + 1);
 
-        // TODO: YOUR SECOND if STATEMENT - change this to use equals, not ==.
-        if (domain == (agencyDomain)) {
-            // TODO: print   Clearance:       GRANTED - agency email verified
+
+        if (domain.equals(agencyDomain)) {
+            System.out.println("Clearance:       GRANTED - agency email verified");
 
         } else {
-            // TODO: print   Clearance:       DENIED - gmail.com is not an agency address
-            //       (use the real domain, not the word gmail.com)
+            System.out.println("Clearance:       DENIED - " + domain + " is not an agency address");
 
         }
 
 
-        // ==== PART 4 - THE FILING CABINET ===================================
-        // Agents are filed alphabetically by last name.
-        // compareTo gives a negative number if last comes BEFORE handler.
+// ==== PART 4 - THE FILING CABINET ===================================
+// Agents are filed alphabetically by last name.
+// compareTo gives a negative number if last comes BEFORE handler.
 
-        int order = 0;         // TODO: compare last to handler with compareTo
+        int order = last.compareTo(handler);
 
         System.out.println("Filing check:    \"" + last + "\".compareTo(\"" + handler + "\") = " + order);
 
         if (order < 0) {
-            // TODO: print   Filed BEFORE your handler, Agent Gesell.
+            System.out.println("Filed BEFORE your handler, Agent Gesell.");
 
         } else {
-            // TODO: print   Filed AFTER your handler, Agent Gesell.
+            System.out.println("Filed AFTER your handler, Agent Gesell.");
 
         }
 
